@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="./VershinyAxios.js"></script>
+  <script>
+    // Асинхронная функция для теста
+    async function testLibrary() {
+      console.log('--- Старт тестов: ---');
+
+      const api = VershinyAxios.create({
+        baseUrl: 'https://jsonplaceholder.typicode.com',
+        headers: {
+          'Authorization': 'Bearer my-token-123'
+        }
+      });
+
+      console.log('--- 1. Тест GET (Получение постов) ---');
+      const posts = await api.get('/posts?_limit=2');
+      console.log(posts);
+      // Ожидание: массив из 2 объектов
+
+      console.log('\n--- 2. Тест POST (Создание поста) ---');
+      const newPost = await api.post('/posts', {
+        title: 'Vershiny Library',
+        body: 'Это крутая библиотека',
+        userId: 1
+      });
+      console.log(newPost);
+      // Ожидание: объект с id: 101
+
+      console.log('\n--- 3. Тест PUT (Обновление) ---');
+      const updatedPost = await api.put('/posts/1', {
+        title: 'Обновленный заголовок',
+        body: 'Новый текст',
+        userId: 1
+      });
+      console.log(updatedPost);
+
+      console.log('\n--- 4. Тест DELETE (Удаление) ---');
+      const deleted = await api.delete('/posts/1');
+      console.log('Удалено успешно:', deleted);
+    }
+
+    // Запуск тестов
+    testLibrary();
+  </script>
+
+</body>
+
+</html>
