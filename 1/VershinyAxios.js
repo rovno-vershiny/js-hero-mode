@@ -13,7 +13,7 @@ class VershinyAxios {
   async _request(endpoint, method, data = null) {
     // TODO: Сформируйте полный URL.
     // Подсказка: Если в this.config.baseUrl есть адрес, склейте его с endpoint.
-    const url = ''; // Ваш код здесь
+    const url = new URL(endpoint, this.config.baseUrl).href; // Ваш код здесь
 
     // TODO: Подготовьте настройки для fetch (options)
     const options = {
@@ -27,6 +27,8 @@ class VershinyAxios {
     // TODO: Если есть data (для POST/PUT), добавьте заголовок Content-Type
     // и превратите data в строку JSON в options.body
     if (data) {
+      options.headers['Content-Type'] = 'application/json';
+      options.body = JSON.stringify(data);
       // Ваш код здесь: добавьте 'Content-Type': 'application/json' в headers
       // Ваш код здесь: запишите JSON.stringify(data) в body
     }
@@ -41,7 +43,10 @@ class VershinyAxios {
       }
 
       // TODO: Верните результат парсинга JSON (return await response.json())
-      return null; // Заглушка
+      // const result = await response.body;
+      // console.log(result);
+      const result = await response.json();
+      return result; // Заглушка
     } catch (error) {
       console.error('VershinyAxios Error:', error);
       throw error;
@@ -74,6 +79,6 @@ class VershinyAxios {
   // --- Статический метод для создания экземпляра ---
   static create(config) {
     // TODO: Верните новый new VershinyAxios(config)
-    return null; // Заглушка
+    return new VershinyAxios(config); // Заглушка
   }
 }
